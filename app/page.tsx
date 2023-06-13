@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="min-h-screen grid items-center justify-center">
       <div>
-        <h1 class="text-3xl font-bold">
+        <h1 className="text-3xl font-bold">
           Abit belajar nextjs
         </h1>
         <Navbar />

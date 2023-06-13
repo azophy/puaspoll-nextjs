@@ -2,13 +2,9 @@ import Link from 'next/link'
 
 export default function Navbar() {
   return (
-      <div class="flex space-x-4">
-        <span>
-          <Link href="/" class="underline">Home</Link>
-        </span>
-        <span>
-          <Link href="/projects" class="underline">Projects</Link>
-        </span>
+      <div className="flex space-x-4">
+        <Link href="/" className="underline">Home</Link>
+        <Link href="/projects" className="underline">Projects</Link>
       </div>
   )
 }
