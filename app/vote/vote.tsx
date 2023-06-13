@@ -16,7 +16,7 @@ const PollItem = (props:any) => {
           value={props.vote} 
           min="0" 
           max="10" 
-          onInput={e => props.updateCount(e.target.value)} 
+          onInput={e => props.updateCount(e.currentTarget.value)} 
         />
 
       </div>
@@ -31,18 +31,18 @@ export default function Vote() {
     { label: 'SBY',     vote: 0 },
   ])
 
-  function countTotalVote(items) {
-    return options.reduce((sum, i) => sum + i.vote**2 , 0)
+  function countTotalVote() {
+    return options.reduce((sum:number, i:any) => sum + i.vote**2 , 0)
   }
 
-  function setCount(idx, val) {
+  function setCount(idx:number, val:number) {
     let newOptions = options.slice()
     newOptions[idx].vote = val
 
     setOptions(newOptions)
   }
 
-  const remainingBudget = voteLimit - countTotalVote(options)
+  const remainingBudget = voteLimit - countTotalVote()
 
   return (
     <div className="h-screen bg-gray-200 p-6">
@@ -53,11 +53,11 @@ export default function Vote() {
       </div>
 
       { options.map(
-          (item, idx) => <PollItem 
+          (item:any, idx:number) => <PollItem 
               label={item.label} 
               vote={item.vote} 
               key={item.label}
-              updateCount={val => setCount(idx,val)}
+              updateCount={(val:number) => setCount(idx,val)}
               />
       )}
     </div>
