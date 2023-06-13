@@ -1,14 +1,12 @@
-'use client'
- 
-import { useState } from 'react'
+import Navbar from '../../common/nav'
+import Counter from './counter'
 
-export default function Counter() {
-    const [count, setCount] = useState(0)
+export default function CounterPage() {
 
     return (
       <div>
-        <p>You clicked {count} times</p>
-        <button onClick={() => setCount(count + 1)}>Click me</button>
+        <Counter />
+        <Navbar />
       </div>
     )
 }
