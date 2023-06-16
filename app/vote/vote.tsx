@@ -45,7 +45,7 @@ export default function Vote() {
   const remainingBudget = voteLimit - countTotalVote()
 
   return (
-    <div className="h-screen bg-gray-200 p-6">
+    <div className="bg-gray-200 p-6">
       <h1 className="text-3xl font-bold">Example poll</h1>
 
       <div className={ remainingBudget < 0 ? 'bg-red-300' : 'bg-green-300' }>
