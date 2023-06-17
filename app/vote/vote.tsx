@@ -23,13 +23,10 @@ const PollItem = (props:any) => {
     )
 }
 
-export default function Vote() {
-  const [options, setOptions] = useState([
-    { label: 'sukarno', vote: 0 },
-    { label: 'suharto', vote: 0 },
-    { label: 'habibie', vote: 0 },
-    { label: 'SBY',     vote: 0 },
-  ])
+export default function Vote(props: any) {
+  const [options, setOptions] = useState(
+    props.choices.map(val => ({ label: val, vote: 0}) )
+  )
 
   function countTotalVote() {
     return options.reduce((sum:number, i:any) => sum + i.vote**2 , 0)
@@ -46,7 +43,7 @@ export default function Vote() {
 
   return (
     <div className="bg-gray-200 p-6">
-      <h1 className="text-3xl font-bold">Example poll</h1>
+      <h1 className="text-3xl font-bold">{props.title}</h1>
 
       <div className={ remainingBudget < 0 ? 'bg-red-300' : 'bg-green-300' }>
         Remaining vote budget: {remainingBudget}
