@@ -25,7 +25,7 @@ const PollItem = (props:any) => {
 
 export default function Vote(props: any) {
   const [options, setOptions] = useState(
-    props.choices.map(val => ({ label: val, vote: 0}) )
+    props.choices.map((val: any) => ({ label: val, vote: 0}) )
   )
 
   function countTotalVote() {

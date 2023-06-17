@@ -12,11 +12,6 @@ import Navbar from '../common/nav'
 
 export default async function Home() {
   const polls = await getPolls()
-  // const polls = [
-  //   { label: 'poll 1'},
-  //   { label: 'poll 2'},
-  //   { label: 'poll 3'},
-  // ]
 
   return (
     <main className="min-h-screen grid items-center justify-center">
@@ -26,7 +21,7 @@ export default async function Home() {
           PuasPoll
         </h1>
 	<ul>
-	{ polls.map(
+	{ polls?.map(
 	  (poll: any) => <li key={poll.id}>
 	    <Link href={`/vote/${poll.id}`} className="underline">{poll.title}</Link>
 	  </li>
