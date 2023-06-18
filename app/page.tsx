@@ -1,6 +1,6 @@
 import prisma from '../lib/prisma'
 
-export const revalidate = 60 // revalidate every minute
+export const revalidate = 1 // revalidate every minute
  
 async function getPolls() {
   const polls = await prisma.poll.findMany()
