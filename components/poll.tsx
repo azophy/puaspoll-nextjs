@@ -24,8 +24,9 @@ const PollItem = (props:any) => {
 }
 
 export default function Poll(props: any) {
+  console.log('ok')
   const [options, setOptions] = useState(
-    props.choices.map((val: any) => ({ label: val, count: 0}) )
+    props.choices.map((choice: any) => ({ id: choice.id, label: choice.label, count: 0}) )
   )
 
   function countTotalVote() {
@@ -39,13 +40,18 @@ export default function Poll(props: any) {
     setOptions(newOptions)
   }
 
+  async function handleSubmit() {
+    alert('ok')
+  }
+
   const remainingBudget = pollLimit - countTotalVote()
+  const isOverBudget = remainingBudget < 0
 
   return (
     <div className="bg-gray-200 p-6">
       <h1 className="text-3xl font-bold">{props.title}</h1>
 
-      <div className={ remainingBudget < 0 ? 'bg-red-300' : 'bg-green-300' }>
+      <div className={ isOverBudget ? 'bg-red-300' : 'bg-green-300' }>
         Remaining poll budget: {remainingBudget}
       </div>
 
@@ -53,10 +59,18 @@ export default function Poll(props: any) {
           (item:any, idx:number) => <PollItem 
               label={item.label} 
               count={item.count} 
-              key={item.label}
+              key={item.id}
               updateCount={(val:number) => setCount(idx,val)}
               />
       )}
+
+      <button type="button"
+              disabled={isOverBudget}
+              className={isOverBudget ? 'bg-gray-300 p-4' : 'bg-blue-300 hover:bg-blue-600 hover:underline cursor-pointer p-4'}
+              onClick={handleSubmit}
+      >
+        Submit
+      </button>
     </div>
   )
 }
