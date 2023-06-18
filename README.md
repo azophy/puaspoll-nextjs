@@ -13,5 +13,5 @@ pnpm dev
 ```
 
 ## Managing migrations
-- running migrations: `npx prisma migrate dev`
-- generating migration: `npx prisma migrate dev --name=migration-name`
+- running migrations: `npm run migrate`
+- generating migration: `npm run migrate --name=migration-name`
