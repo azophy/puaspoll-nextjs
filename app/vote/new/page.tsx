@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Router from 'next/router';
+import Navbar from '../../../components/nav'
 
 export default function Vote(props: any) {
   const [title, setTitle] = useState('')
@@ -13,6 +15,27 @@ export default function Vote(props: any) {
     setChoices(newChoices)
   }
 
+  const submitData = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const body = { title, choices };
+      
+      let res = await fetch('/api/polls', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      let res_data = await res.json()
+      if (res_data.ok) alert('Success'); else alert('failed');
+      
+      await Router.push(`/vote/${res_data.data.id}`);
+    } catch (error) {
+      console.error(error);
+      alert(error)
+    }
+
+  };
+
   function delChoice(idx:number) {
     let newChoices = choices.slice()
     delete newChoices[idx]
@@ -22,7 +45,8 @@ export default function Vote(props: any) {
 
   return (
     <div className="bg-gray-200 p-6 text-gray-900">
-      <form action="" className="flex flex-col gap-4">
+      <Navbar />
+      <form onSubmit={submitData} className="flex flex-col gap-4">
         <span>
           <label htmlFor="">Title</label>
           <input type="text" 
@@ -46,6 +70,9 @@ export default function Vote(props: any) {
                 onClick={() => setChoices(choices.concat([""]))}
                 className="bg-blue-600 p-2"
         >add choice</button>
+        <button type="submit"
+                className="bg-blue-600 p-2"
+        >Submit</button>
       </form>
     </div>
   )

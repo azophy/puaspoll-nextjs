@@ -5,6 +5,7 @@ export default function Navbar() {
       <div className="flex space-x-4">
         <Link href="/" className="underline">Home</Link>
         <Link href="/vote" className="underline">Vote</Link>
+        <Link href="/vote/new" className="underline">New Vote</Link>
       </div>
   )
 }

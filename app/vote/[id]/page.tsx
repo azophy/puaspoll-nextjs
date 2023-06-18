@@ -1,7 +1,7 @@
 import prisma from '../../../lib/prisma'
  
 export const revalidate = 60 // revalidate every minute
-import Navbar from '../../../common/nav'
+import Navbar from '../../../components/nav'
 import Vote from '../vote'
  
 async function getPoll(id: string) {

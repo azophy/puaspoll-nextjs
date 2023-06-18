@@ -8,7 +8,7 @@ async function getPolls() {
 }
  
 import Link from 'next/link'
-import Navbar from '../common/nav'
+import Navbar from '../components/nav'
 
 export default async function Home() {
   const polls = await getPolls()
