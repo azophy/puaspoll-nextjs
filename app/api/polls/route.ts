@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     data: {
       title: req.title,
       choices: {
-        create: req.choices.map(label => ({ label }))
+        create: req.choices.map((label:string) => ({ label }))
       },
     }
   })

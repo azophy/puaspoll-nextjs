@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const poll = await getPoll(params.id)
   if (!poll) throw new Error('Poll not found')
 
-  const choices = poll.choices.map(choice => ({
+  const choices = poll.choices.map((choice:any) => ({
     id: choice.id,
     label: choice.label,
     count: 0,

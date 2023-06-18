@@ -8,10 +8,10 @@ import Navbar from '../../../components/nav'
 export default function Vote(props: any) {
   const router = useRouter()
   const [title, setTitle] = useState('')
-  const [choices, setChoices] = useState([])
+  const [choices, setChoices] = useState([] as string[])
 
   function setChoice(idx:number, val:string) {
-    let newChoices = choices.slice()
+    let newChoices: string[] = choices.slice()
     newChoices[idx] = val
 
     setChoices(newChoices)
@@ -40,7 +40,7 @@ export default function Vote(props: any) {
   };
 
   function delChoice(idx:number) {
-    let newChoices = choices.slice()
+    let newChoices: string[] = choices.slice()
     delete newChoices[idx]
 
     setChoices(newChoices)
@@ -64,10 +64,10 @@ export default function Vote(props: any) {
                    value={choice}
                    onInput={e => setChoice(idx, e.currentTarget.value)} 
             />
-            <buttom type="button"
+            <button type="button"
                     className="bg-blue-600 p-2 ml-2 cursor-pointer hover:bg-blue-300 hover:underline"
                     onClick={() => delChoice(idx)}
-            >x</buttom>
+            >x</button>
           </span>
         ))}
         <button type="button"

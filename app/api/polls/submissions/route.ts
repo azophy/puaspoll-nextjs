@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     where: { id: req.poll_id },
   })
 
-  req.choices.map(async (choice) => {
+  req.choices.map(async (choice: any) => {
     await prisma.pollChoice.update({
       data: { count: { increment: parseInt(choice.count) } },
       where: { id: choice.id },
