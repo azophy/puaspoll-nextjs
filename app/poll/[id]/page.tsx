@@ -22,12 +22,26 @@ export default async function Page({ params }: { params: { id: string } }) {
   const choices = poll.choices.map(choice => choice.label)
 
     return (
+      <main className="min-h-screen grid items-center justify-center">
       <div>
+        <Navbar />
         <Poll 
           title={poll.title}
           choices={choices}
         />
-        <Navbar />
+
+        <div className="m-4 bg-gray-200 p-6">
+          <h2 className="text-lg font-bold">Result</h2>
+          <span>
+          {poll.submissionCount} Submission
+          </span>
+          <ul className="list-disc">
+          { poll.choices.map((choice:any) => (
+            <li key={choice.id}>{choice.label}: {choice.count} poll</li>
+          ))}
+          </ul>
+        </div>
       </div>
+      </main>
     )
 }

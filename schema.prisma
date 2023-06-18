@@ -17,19 +17,21 @@ datasource db {
 }
 
 model PollChoice {
-  id        	String  @default(cuid()) @id
-  label     	String
+  id        String  @default(cuid()) @id
+  label     String
+  count     Int     @default(0)
   poll    	Poll?   @relation(fields: [pollId], references: [id])
   pollId  	String?
 }
 
 model Poll {
-  id        	String  @default(cuid()) @id
-  title     	String
-  description   String?
-  author    	User?   @relation(fields: [authorId], references: [id])
-  authorId  	String?
-  choices	PollChoice[]
+  id        	      String  @default(cuid()) @id
+  title     	      String
+  description       String?
+  submissionCount   Int     @default(0)
+  author    	      User?   @relation(fields: [authorId], references: [id])
+  authorId  	      String?
+  choices	          PollChoice[]
 }
 
 

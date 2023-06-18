@@ -44,10 +44,11 @@ export default function Vote(props: any) {
   }
 
   return (
+  <main className="min-h-screen grid items-center justify-center">
     <div className="bg-gray-200 p-6 text-gray-900">
       <Navbar />
-      <form onSubmit={submitData} className="flex flex-col gap-4">
-        <span>
+      <form onSubmit={submitData} className="flex flex-col gap-4 mt-4">
+        <span className="flex gap-4">
           <label htmlFor="">Title</label>
           <input type="text" 
                  value={title}
@@ -75,5 +76,6 @@ export default function Vote(props: any) {
         >Submit</button>
       </form>
     </div>
+  </main>
   )
 }
