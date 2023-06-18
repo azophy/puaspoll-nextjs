@@ -23,7 +23,7 @@ export default async function Home() {
 	<ul>
 	{ polls?.map(
 	  (poll: any) => <li key={poll.id}>
-	    <Link href={`/vote/${poll.id}`} className="underline">{poll.title}</Link>
+	    <Link href={`/poll/${poll.id}`} className="underline">{poll.title}</Link>
 	  </li>
 	)}
 	</ul>

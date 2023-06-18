@@ -2,18 +2,18 @@
 
 import { useState } from 'react';
 
-const voteLimit = 100 // budget limit for this vote
+const pollLimit = 100 // budget limit for this poll
 
 const PollItem = (props:any) => {  
     return (
       <div className="bg-blue-300 my-4 p-2">
 
         <span className="m-2">
-        {props.label} ({props.vote} vote, cost {props.vote**2})
+        {props.label} ({props.count} poll, cost {props.count**2})
         </span>
 
         <input type="range" 
-          value={props.vote} 
+          value={props.count} 
           min="0" 
           max="10" 
           onInput={e => props.updateCount(e.currentTarget.value)} 
@@ -23,36 +23,36 @@ const PollItem = (props:any) => {
     )
 }
 
-export default function Vote(props: any) {
+export default function Poll(props: any) {
   const [options, setOptions] = useState(
-    props.choices.map((val: any) => ({ label: val, vote: 0}) )
+    props.choices.map((val: any) => ({ label: val, count: 0}) )
   )
 
   function countTotalVote() {
-    return options.reduce((sum:number, i:any) => sum + i.vote**2 , 0)
+    return options.reduce((sum:number, i:any) => sum + i.count**2 , 0)
   }
 
   function setCount(idx:number, val:number) {
     let newOptions = options.slice()
-    newOptions[idx].vote = val
+    newOptions[idx].count = val
 
     setOptions(newOptions)
   }
 
-  const remainingBudget = voteLimit - countTotalVote()
+  const remainingBudget = pollLimit - countTotalVote()
 
   return (
     <div className="bg-gray-200 p-6">
       <h1 className="text-3xl font-bold">{props.title}</h1>
 
       <div className={ remainingBudget < 0 ? 'bg-red-300' : 'bg-green-300' }>
-        Remaining vote budget: {remainingBudget}
+        Remaining poll budget: {remainingBudget}
       </div>
 
       { options.map(
           (item:any, idx:number) => <PollItem 
               label={item.label} 
-              vote={item.vote} 
+              count={item.count} 
               key={item.label}
               updateCount={(val:number) => setCount(idx,val)}
               />

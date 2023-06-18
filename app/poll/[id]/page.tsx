@@ -2,7 +2,7 @@ import prisma from '../../../lib/prisma'
  
 export const revalidate = 60 // revalidate every minute
 import Navbar from '../../../components/nav'
-import Vote from '../vote'
+import Poll from '../../../components/poll'
  
 async function getPoll(id: string) {
   const poll = await prisma.poll.findUnique({
@@ -15,7 +15,7 @@ async function getPoll(id: string) {
   return poll
 }
 
-export default async function VotePage({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const poll = await getPoll(params.id)
   if (!poll) throw new Error('Poll not found')
 
@@ -23,10 +23,10 @@ export default async function VotePage({ params }: { params: { id: string } }) {
 
     return (
       <div>
-        <Vote 
-	  title={poll.title}
-	  choices={choices}
-	/>
+        <Poll 
+          title={poll.title}
+          choices={choices}
+        />
         <Navbar />
       </div>
     )

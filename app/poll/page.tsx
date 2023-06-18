@@ -1,7 +1,7 @@
 import Navbar from '../../components/nav'
-import Vote from './vote'
+import Poll from '../../components/poll'
 
-export default function VotePage() {
+export default function Page() {
   const choices = [
     'sukarno',
     'suharto',
@@ -11,7 +11,7 @@ export default function VotePage() {
 
     return (
       <div>
-        <Vote 
+        <Poll 
 	  title="coba coba"
 	  choices={choices}
 	/>

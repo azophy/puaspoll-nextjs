@@ -4,8 +4,8 @@ export default function Navbar() {
   return (
       <div className="flex space-x-4">
         <Link href="/" className="underline">Home</Link>
-        <Link href="/vote" className="underline">Vote</Link>
-        <Link href="/vote/new" className="underline">New Vote</Link>
+        <Link href="/poll" className="underline">Poll</Link>
+        <Link href="/poll/new" className="underline">New Poll</Link>
       </div>
   )
 }
