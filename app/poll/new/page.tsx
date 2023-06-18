@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import Router from 'next/router';
+import { useRouter } from 'next/navigation'
 import Navbar from '../../../components/nav'
 
 export default function Vote(props: any) {
+  const router = useRouter()
   const [title, setTitle] = useState('')
   const [choices, setChoices] = useState([])
 
@@ -26,9 +28,10 @@ export default function Vote(props: any) {
         body: JSON.stringify(body),
       })
       let res_data = await res.json()
-      if (res_data.ok) alert('Success'); else alert('failed');
-      
-      await Router.push(`/vote/${res_data.data.id}`);
+      if (res_data.ok) {
+        alert('Success');
+        await router.push(`/poll/${res_data.data.id}`);
+      } else alert('failed');
     } catch (error) {
       console.error(error);
       alert(error)
@@ -62,17 +65,17 @@ export default function Vote(props: any) {
                    onInput={e => setChoice(idx, e.currentTarget.value)} 
             />
             <buttom type="button"
+                    className="bg-blue-600 p-2 ml-2 cursor-pointer hover:bg-blue-300 hover:underline"
                     onClick={() => delChoice(idx)}
-                    className="bg-blue-600 p-2 ml-4"
             >x</buttom>
           </span>
         ))}
         <button type="button"
                 onClick={() => setChoices(choices.concat([""]))}
-                className="bg-blue-600 p-2"
+                className="bg-blue-600 p-2 cursor-pointer hover:bg-blue-300 hover:underline"
         >add choice</button>
         <button type="submit"
-                className="bg-blue-600 p-2"
+                className="bg-blue-600 p-2 cursor-pointer hover:bg-blue-300 hover:underline"
         >Submit</button>
       </form>
     </div>

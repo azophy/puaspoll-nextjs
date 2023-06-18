@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'
 
 const pollLimit = 100 // budget limit for this poll
 
@@ -24,7 +25,8 @@ const PollItem = (props:any) => {
 }
 
 export default function Poll(props: any) {
-  console.log('ok')
+  const router = useRouter()
+
   const [options, setOptions] = useState(
     props.choices.map((choice: any) => ({ id: choice.id, label: choice.label, count: 0}) )
   )
@@ -41,7 +43,27 @@ export default function Poll(props: any) {
   }
 
   async function handleSubmit() {
-    alert('ok')
+    try {
+      const body = { 
+        poll_id: props.poll_id,
+        title: props.title,
+        choices: options,
+      };
+      
+      let res = await fetch('/api/polls/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      let res_data = await res.json()
+      if (res_data.ok) {
+        alert('Success');
+        await router.refresh();
+      } else alert('failed');
+    } catch (error) {
+      console.error(error);
+      alert(error)
+    }
   }
 
   const remainingBudget = pollLimit - countTotalVote()

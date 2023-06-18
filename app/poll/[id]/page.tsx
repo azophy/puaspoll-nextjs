@@ -1,6 +1,6 @@
 import prisma from '../../../lib/prisma'
  
-export const revalidate = 60 // revalidate every minute
+export const revalidate = 5 // revalidate every minute
 import Navbar from '../../../components/nav'
 import Poll from '../../../components/poll'
  
@@ -25,11 +25,12 @@ export default async function Page({ params }: { params: { id: string } }) {
     count: 0,
   }))
 
-    return (
-      <main className="min-h-screen grid items-center justify-center">
+  return (
+    <main className="min-h-screen grid items-center justify-center">
       <div>
         <Navbar />
         <Poll 
+          poll_id={poll.id}
           title={poll.title}
           choices={poll.choices}
         />
@@ -46,6 +47,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           </ul>
         </div>
       </div>
-      </main>
-    )
+    </main>
+  )
 }

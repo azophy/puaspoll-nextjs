@@ -17,16 +17,20 @@ export default async function Home() {
     <main className="min-h-screen grid items-center justify-center">
       <div>
         <Navbar />
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-center text-3xl font-bold">
           PuasPoll
         </h1>
-	<ul>
-	{ polls?.map(
-	  (poll: any) => <li key={poll.id}>
-	    <Link href={`/poll/${poll.id}`} className="underline">{poll.title}</Link>
-	  </li>
-	)}
-	</ul>
+
+        <div className="m-4 bg-gray-400 p-6">
+          <h2>Existing polls</h2>
+          <ul className="list-disc">
+          { polls?.map(
+            (poll: any) => <li key={poll.id}>
+              <Link href={`/poll/${poll.id}`} className="underline hover:font-bold">{poll.title}</Link>
+            </li>
+          )}
+          </ul>
+        </div>
       </div>
     </main>
   )
