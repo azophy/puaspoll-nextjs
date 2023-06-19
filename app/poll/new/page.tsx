@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
 import { useRouter } from 'next/navigation'
+import ReCAPTCHA from 'react-google-recaptcha'
 import Navbar from '../../../components/nav'
 
 export default function Vote(props: any) {
   const router = useRouter()
+  const recaptchaRef = React.useRef()
   const [title, setTitle] = useState('')
   const [choices, setChoices] = useState([] as string[])
 
@@ -20,6 +22,7 @@ export default function Vote(props: any) {
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
+      const recaptchaToken = await recaptchaRef.current.getValue();
       const body = { title, choices };
       
       let res = await fetch('/api/polls', {
@@ -70,6 +73,11 @@ export default function Vote(props: any) {
             >x</button>
           </span>
         ))}
+
+        <ReCAPTCHA size="normal"
+                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+                   ref={recaptchaRef}
+        />
         <button type="button"
                 onClick={() => setChoices(choices.concat([""]))}
                 className="bg-blue-600 p-2 cursor-pointer hover:bg-blue-300 hover:underline"
