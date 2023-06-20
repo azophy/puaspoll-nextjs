@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const pollLimit = 100 // budget limit for this poll
 
@@ -26,6 +27,7 @@ const PollItem = (props:any) => {
 
 export default function Poll(props: any) {
   const router = useRouter()
+  const recaptchaRef = useRef()
 
   const [options, setOptions] = useState(
     props.choices.map((choice: any) => ({ id: choice.id, label: choice.label, count: 0}) )
@@ -44,10 +46,14 @@ export default function Poll(props: any) {
 
   async function handleSubmit() {
     try {
+      const recaptchaToken = await recaptchaRef.current.getValue();
+      if (!recaptchaToken) throw new Error('Recaptcha validation does not passed')
+
       const body = { 
         poll_id: props.poll_id,
         title: props.title,
         choices: options,
+        recaptchaToken,
       };
       
       let res = await fetch('/api/polls/submissions', {
@@ -86,6 +92,10 @@ export default function Poll(props: any) {
               />
       )}
 
+      <ReCAPTCHA size="normal"
+                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+                 ref={recaptchaRef}
+      />
       <button type="button"
               disabled={isOverBudget}
               className={isOverBudget ? 'bg-gray-300 p-4' : 'bg-blue-300 hover:bg-blue-600 hover:underline cursor-pointer p-4'}

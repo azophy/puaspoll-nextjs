@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import Router from 'next/router';
 import { useRouter } from 'next/navigation'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -8,7 +8,7 @@ import Navbar from '../../../components/nav'
 
 export default function Vote(props: any) {
   const router = useRouter()
-  const recaptchaRef = React.useRef()
+  const recaptchaRef = useRef()
   const [title, setTitle] = useState('')
   const [choices, setChoices] = useState([] as string[])
 
@@ -19,11 +19,11 @@ export default function Vote(props: any) {
     setChoices(newChoices)
   }
 
-  const submitData = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const submitData = async () => {
     try {
       const recaptchaToken = await recaptchaRef.current.getValue();
-      const body = { title, choices };
+      if (!recaptchaToken) throw new Error('Recaptcha validation does not passed')
+      const body = { title, choices, recaptchaToken };
       
       let res = await fetch('/api/polls', {
         method: 'POST',
@@ -53,7 +53,7 @@ export default function Vote(props: any) {
   <main className="min-h-screen grid items-center justify-center">
     <div className="bg-gray-200 p-6 text-gray-900">
       <Navbar />
-      <form onSubmit={submitData} className="flex flex-col gap-4 mt-4">
+      <form className="flex flex-col gap-4 mt-4">
         <span className="flex gap-4">
           <label htmlFor="">Title</label>
           <input type="text" 
@@ -82,8 +82,9 @@ export default function Vote(props: any) {
                 onClick={() => setChoices(choices.concat([""]))}
                 className="bg-blue-600 p-2 cursor-pointer hover:bg-blue-300 hover:underline"
         >add choice</button>
-        <button type="submit"
+        <button type="button"
                 className="bg-blue-600 p-2 cursor-pointer hover:bg-blue-300 hover:underline"
+                onSubmit={submitData}
         >Submit</button>
       </form>
     </div>

@@ -1,8 +1,13 @@
-import prisma from '../../../../lib/prisma'
 import { NextResponse } from 'next/server'
+import prisma from '../../../../lib/prisma'
+import validateRecaptcha from '../../../../lib/helper'
 
 export async function POST(request: Request) {
   const req = await request.json()
+
+  const isRecaptchaValid = await validateRecaptcha(req.recaptchaToken)
+  if (!isRecaptchaValid) throw new Error('recaptcha failed')
+
   const poll = await prisma.poll.findUnique({
     where: { id: req.poll_id },
   })
