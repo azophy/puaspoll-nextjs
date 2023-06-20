@@ -21,7 +21,7 @@ export default function Vote(props: any) {
 
   const submitData = async () => {
     try {
-      const recaptchaToken = await recaptchaRef.current.getValue();
+      const recaptchaToken = await recaptchaRef.current?.getValue();
       if (!recaptchaToken) throw new Error('Recaptcha validation does not passed')
       const body = { title, choices, recaptchaToken };
       
