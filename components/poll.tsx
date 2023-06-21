@@ -27,7 +27,7 @@ const PollItem = (props:any) => {
 
 export default function Poll(props: any) {
   const router = useRouter()
-  const recaptchaRef = useRef()
+  const recaptchaRef = useRef<any>(null)
 
   const [options, setOptions] = useState(
     props.choices.map((choice: any) => ({ id: choice.id, label: choice.label, count: 0}) )
@@ -93,7 +93,7 @@ export default function Poll(props: any) {
       )}
 
       <ReCAPTCHA size="normal"
-                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''} 
                  ref={recaptchaRef}
       />
       <button type="button"

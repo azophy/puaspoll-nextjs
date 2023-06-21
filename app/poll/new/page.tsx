@@ -8,7 +8,7 @@ import Navbar from '../../../components/nav'
 
 export default function Vote(props: any) {
   const router = useRouter()
-  const recaptchaRef = useRef()
+  const recaptchaRef = useRef<any>(null)
   const [title, setTitle] = useState('')
   const [choices, setChoices] = useState([] as string[])
 
@@ -75,7 +75,7 @@ export default function Vote(props: any) {
         ))}
 
         <ReCAPTCHA size="normal"
-                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''} 
                    ref={recaptchaRef}
         />
         <button type="button"
