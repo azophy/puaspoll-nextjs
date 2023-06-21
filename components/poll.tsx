@@ -25,10 +25,30 @@ const PollItem = (props:any) => {
     )
 }
 
+const PollList = (props:any) => {
+  return (
+    <>
+      <div className={ props.isOverBudget ? 'bg-red-300' : 'bg-green-300' }>
+        Remaining poll budget: {props.remainingBudget}
+      </div>
+      
+      { props.options.map(
+          (item:any, idx:number) => <PollItem 
+              label={item.label} 
+              count={item.count} 
+              key={item.id}
+              updateCount={(val:number) => props.setCount(idx,val)}
+              />
+      )}
+    </>
+  )
+}
+
 export default function Poll(props: any) {
   const router = useRouter()
   const recaptchaRef = useRef<any>(null)
 
+  const [status, setStatus] = useState('ready')
   const [options, setOptions] = useState(
     props.choices.map((choice: any) => ({ id: choice.id, label: choice.label, count: 0}) )
   )
@@ -46,6 +66,7 @@ export default function Poll(props: any) {
 
   async function handleSubmit() {
     try {
+      setStatus('loading...')
       const recaptchaToken = await recaptchaRef.current?.getValue();
       if (!recaptchaToken) throw new Error('Recaptcha validation does not passed')
 
@@ -63,12 +84,12 @@ export default function Poll(props: any) {
       })
       let res_data = await res.json()
       if (res_data.ok) {
-        alert('Success');
+        setStatus('Success');
         await router.refresh();
-      } else alert('failed');
+      } else setStatus('failed');
     } catch (error) {
       console.error(error);
-      alert(error)
+      setStatus(`error: ${error.message}`)
     }
   }
 
@@ -79,30 +100,31 @@ export default function Poll(props: any) {
     <div className="bg-gray-200 p-6">
       <h1 className="text-3xl font-bold">{props.title}</h1>
 
-      <div className={ isOverBudget ? 'bg-red-300' : 'bg-green-300' }>
-        Remaining poll budget: {remainingBudget}
-      </div>
-
-      { options.map(
-          (item:any, idx:number) => <PollItem 
-              label={item.label} 
-              count={item.count} 
-              key={item.id}
-              updateCount={(val:number) => setCount(idx,val)}
-              />
+      {status != 'ready' && (
+        <span>{status}</span>
       )}
 
-      <ReCAPTCHA size="normal"
-                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''} 
-                 ref={recaptchaRef}
-      />
-      <button type="button"
-              disabled={isOverBudget}
-              className={isOverBudget ? 'bg-gray-300 p-4' : 'bg-blue-300 hover:bg-blue-600 hover:underline cursor-pointer p-4'}
-              onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      {status == 'ready' && ( <>
+        <PollList
+          options={options}
+          remainingBudget={remainingBudget}
+          isOverBudget={isOverBudget}
+          setCount={setCount}
+        />
+
+        <ReCAPTCHA size="normal"
+                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''} 
+                   ref={recaptchaRef}
+        />
+        <br />
+        <button type="button"
+                disabled={isOverBudget}
+                className={isOverBudget ? 'bg-gray-300 p-4' : 'bg-blue-300 hover:bg-blue-600 hover:underline cursor-pointer p-4'}
+                onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </>)}
     </div>
   )
 }
