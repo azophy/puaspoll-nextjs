@@ -87,9 +87,9 @@ export default function Poll(props: any) {
         setStatus('Success');
         await router.refresh();
       } else setStatus('failed');
-    } catch (error) {
-      console.error(error);
-      setStatus(`error: ${error.message}`)
+    } catch (err: any) {
+      console.error(err);
+      setStatus(`error: ${err.message}`)
     }
   }
 

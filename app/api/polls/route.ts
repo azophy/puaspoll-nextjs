@@ -23,10 +23,10 @@ export async function POST(request: Request) {
       ok: true,
       data: { id: result.id },
     })
-  } catch (error) {
+  } catch (err: any) {
     return NextResponse.json({
       ok: false,
-      error: error.message,
+      error: err.message,
     })
   }
 }

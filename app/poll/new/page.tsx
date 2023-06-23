@@ -37,9 +37,9 @@ export default function Vote(props: any) {
         alert('Success. redirecting...');
         await router.push(`/poll/${res_data.data.id}`);
       } else setStatus('failed');
-    } catch (error) {
-      console.error(error);
-      setStatus(`error: ${error.message}`)
+    } catch (err: any) {
+      console.error(err);
+      setStatus(`error: ${err.message}`)
     }
 
   };
